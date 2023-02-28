@@ -1,0 +1,75 @@
+/*
+Write a script that, when attached to a game object, allows the player to move the object 
+around the scene using keyboard input. The object should move forward, backward, left, 
+and right, and the movement speed should be adjustable in the Unity editor. The movement 
+should be smooth and continuous, without any sudden stops or jumps. Additionally, 
+the object should be prevented from moving outside a specified boundary area in the scene.
+*/
+
+using UnityEngine;
+using TMPro;  // reference Text Mesh Pro
+
+public class SpawnObject : MonoBehaviour
+{
+
+    // store the time between spawns
+    public float spawnTime = 0.2f;
+    // store the maximum height they can reach
+    public float maxHeight = 10f; 
+    // store which prefab we'll be spawning
+    public GameObject prefab;
+    // store a reference to the TMP text
+    public TMP_Text scoreText;
+
+    // store the score in a variable
+    private int score = 0;
+    
+    void Start()
+    {
+        // start repeatedly calling the method that will do the spawning
+        // at the rate specified between spawns
+        InvokeRepeating("SpawnIt", 0f, spawnTime);
+    }
+
+    void Update(){
+
+        // update the text of the score
+        scoreText.text = "Score: " + score.ToString();
+    }
+    
+    // a method that does all the spawning
+    void SpawnIt(){
+
+        // store the position to spawn at wich will be at random range for x and z
+        Vector3 spawnPosition = new Vector3(Random.Range(-5f, 5f), 0f, Random.Range(-5f, 5f));
+        // instantiate the object and store a reference to it
+        GameObject newObject = Instantiate(prefab, spawnPosition, Quaternion.identity);
+        // store reference to the Renderer of the new object
+        Renderer myRenderer = newObject.GetComponent<Renderer>();
+
+        // make the the renderer is not null
+        if (myRenderer != null)
+        {
+            // set the renderer material color to a new random color
+            myRenderer.material.color = new Color(Random.value, Random.value, Random.value);
+        }
+
+        // add a rigidbody to the component and store a reference to it
+        Rigidbody rigidbody = newObject.AddComponent<Rigidbody>();
+
+        // add force to the rigidbody, up and using ForceMode Impulse
+        rigidbody.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+
+        // invoke the method that increses score when maxheight is reached
+        Invoke("IncreaseScore", maxHeight / 10f);
+        // destroy the object when maxheight is reached
+        Destroy(newObject, maxHeight / 10f);
+    }
+
+    // short method that increments the score
+    public void IncreaseScore()
+    {
+        score++;
+    }
+
+}

@@ -1,0 +1,53 @@
+/* 
+Write a script that, when attached to a game object, causes the object to move 
+left and right along the x-axis between two given points. The script should allow 
+the speed and the two points to be adjusted in the Unity editor. The movement should 
+be smooth and continuous, without any sudden stops or jumps. 
+*/
+
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MoveLeftRight : MonoBehaviour
+{
+    public float speed = 2f;  // speed
+    public float moveDistance = 10f;  // distance objec will move to
+    private Vector3 pointA; // keep track of both positions the object will be moving to
+    private Vector3 pointB; 
+
+    private bool movingLeft = true; // track if we're moving left or not
+    private Vector3 destination;  // track the next destination for the object
+
+    
+
+    void Start()
+    {
+        pointA = transform.position;   // first point will be the current position
+        // 2nd point will be the position to the far right 
+        pointB = transform.position + Vector3.right * moveDistance; 
+        // set out destination to the 2nd point
+        destination = pointB; 
+    }
+
+  
+    void Update()
+    {
+        // if we've reached the destination
+        if(transform.position == destination){
+            // change to other destination and direction 
+            if(movingLeft){
+                destination = pointA;
+                movingLeft = false;
+            }else
+            {
+                destination = pointB;
+                movingLeft = true;
+            }
+        }
+        
+        // have the object move towards the destinatio    
+        transform.position = Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime);
+    }
+}

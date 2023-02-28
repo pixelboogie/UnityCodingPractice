@@ -1,0 +1,40 @@
+/*
+Write a script that, when attached to a game object, 
+allows the player to move the object around the scene using keyboard input. 
+The object should move forward, backward, left, and right, and the movement speed 
+should be adjustable in the Unity editor. The movement should be smooth and continuous, 
+without any sudden stops or jumps. Additionally, the object should be prevented from 
+moving outside a specified boundary area in the scene.
+*/
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class MoveKeys : MonoBehaviour
+{
+    public float moveSpeed = 5f; // The speed at which the object should move
+    public float boundaryRadius = 10f; // The radius of the boundary area
+
+    // Update is called once per frame
+    void Update()
+    {
+        // Get the current position of the object
+        Vector3 currentPosition = transform.position;
+        
+        // Store the input horizontal and vertical inputs into variables
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        // calculate the vector based on the input and save in variable
+        Vector3 inputVector = new Vector3(horizontalInput, 0f, verticalInput);
+        // calculate what the new position should be and store in variable
+        Vector3 newPosition = currentPosition + inputVector * moveSpeed * Time.deltaTime;
+
+        // Keep the object within the boundary area for the x coordinates and y coordinates
+        newPosition.x = Mathf.Clamp(newPosition.x, -boundaryRadius, boundaryRadius);
+        newPosition.z = Mathf.Clamp(newPosition.z, -boundaryRadius, boundaryRadius);
+
+        // Move the object to the new position
+        transform.position = newPosition;
+    }
+}
