@@ -1,9 +1,5 @@
 /*
-Write a script that, when attached to a game object, allows the player to move the object 
-around the scene using keyboard input. The object should move forward, backward, left, 
-and right, and the movement speed should be adjustable in the Unity editor. The movement 
-should be smooth and continuous, without any sudden stops or jumps. Additionally, 
-the object should be prevented from moving outside a specified boundary area in the scene.
+Write a script that spawns a new game object at a random location in the scene every few seconds. The new game object should have a random color and should move upwards until it reaches a certain height, at which point it should be destroyed. Additionally, the script should keep track of the player's score, which increases every time a game object is destroyed. The score should be displayed on the screen using a UI text element.
 */
 
 using UnityEngine;
@@ -26,6 +22,9 @@ public class SpawnObject : MonoBehaviour
     
     void Start()
     {
+        // If I want the resource directly from assets
+        // prefab = Resources.Load<GameObject>("SpawnObject");
+
         // start repeatedly calling the method that will do the spawning
         // at the rate specified between spawns
         InvokeRepeating("SpawnIt", 0f, spawnTime);
@@ -59,7 +58,8 @@ public class SpawnObject : MonoBehaviour
 
         // add force to the rigidbody, up and using ForceMode Impulse
         rigidbody.AddForce(Vector3.up * 10f, ForceMode.Impulse);
-
+        rb.useGravity = false;
+        
         // invoke the method that increses score when maxheight is reached
         Invoke("IncreaseScore", maxHeight / 10f);
         // destroy the object when maxheight is reached

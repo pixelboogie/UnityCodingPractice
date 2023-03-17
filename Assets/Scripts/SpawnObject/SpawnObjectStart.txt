@@ -1,9 +1,5 @@
 /*
-Write a script that, when attached to a game object, allows the player to move the object 
-around the scene using keyboard input. The object should move forward, backward, left, 
-and right, and the movement speed should be adjustable in the Unity editor. The movement 
-should be smooth and continuous, without any sudden stops or jumps. Additionally, 
-the object should be prevented from moving outside a specified boundary area in the scene.
+Write a script that spawns a new game object at a random location in the scene every few seconds. The new game object should have a random color and should move upwards until it reaches a certain height, at which point it should be destroyed. Additionally, the script should keep track of the player's score, which increases every time a game object is destroyed. The score should be displayed on the screen using a UI text element.
 */
 
 using UnityEngine;

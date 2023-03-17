@@ -1,0 +1,30 @@
+
+/*
+Suppose you have a simple 3D game in Unity, and you want to detect when the player clicks on a specific object in the scene using a raycast. Write a script in C# that accomplishes this task. Assume that the object you want to detect is tagged with the tag "TargetObject".
+*/
+
+
+using UnityEngine;
+
+public class ClickDetector : MonoBehaviour
+{
+    void Update()
+    {
+        // when the mousebutton is down
+        
+        
+            // create a ray that goes from camera to mouseposition
+            
+
+            // create a raycast hit
+            
+
+            // check if the raycast hits something and that something has the tag "TargetObject"
+           
+                // Log out a message that it was hit
+                
+            
+        
+    }
+}
+
